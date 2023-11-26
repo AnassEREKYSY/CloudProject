@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservation de Voiture{% endblock %}
+
+{% block body %}
+        {% include '/components/nav.html.twig' %}
+
+    <div class="container mx-auto max-w-2xl mt-20">
+         <div class="flex items-center justify-between mb-6">
+                <a href="/" class="text-indigo-600 hover:text-indigo-600 flex items-center">
+                    <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    <Span>Retour</span>
+                </a>
+            </div>
+        <h2 class="text-3xl font-bold mb-4">Réservez votre voiture</h2>
+        <p class="text-gray-600 mb-4">Du {{ dateDebut|date('d/m/Y') }} au {{ dateFin|date('d/m/Y') }}</p> 
+
+<ul role="list" class="divide-y divide-gray-100">
+ 
+         {% for message in app.flashes('success') %}
+                <div class="bg-green-500 text-white py-2 px-4 mb-4">{{ message }}</div>
+            {% endfor %}
+
+            {% for message in app.flashes('error') %}
+                <div class="bg-red-500 text-white py-2 px-4 mb-4">{{ message }}</div>
+            {% endfor %}
+
+            {% if vehicules is empty %}
+                <div class="bg-red-500 text-white py-2 px-4 mb-4">Aucun véhicule disponible pour ces dates</div>
+            {% endif %}
+        {% for vehicule in vehicules %}
+            <li class="flex justify-between gap-x-6 py-5">
+                <div class="flex min-w-0 gap-x-4">
+                <img class="h-64 w-64 flex-none bg-gray-50 object-cover rounded-lg
+                " src="{{ vehicule.image }} " alt="">
+                <div class="min-w-0 flex-auto">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-0.5">{{ vehicule.titre }}</h3>
+                    <p class="text-sm font-semibold leading-6 text-gray-900">{{ vehicule.marque }}</p>
+                    <p class="mt-1 truncate text-xs leading-5 text-gray-500">{{ vehicule.modele }}</p>
+                    <div class="mt-1 mb-5 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
+                        
+                        <p id= "description" class="mt-2 flex items-center text-sm leading-5 text-gray-500">
+                          {{ vehicule.description }}
+                        </p> 
+                    </div>
+
+                     <button data-modal-target="popup-modal-{{vehicule.id}}" data-modal-toggle="popup-modal-{{vehicule.id}}" class="mt-10 cursor-pointer rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" href="#popup-modal">Réserver</button>
+                
+                </div>
+                </div>
+                <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+                    <p class="text-sm leading-6 text-gray-900">{{ vehicule.prixJournalier|number_format(2, ',', '.') ~ ' €' }} / jour</p>
+                </div>
+           
+
+<div id="popup-modal-{{vehicule.id}}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-lg">
+            <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="popup-modal-{{vehicule.id}}">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="p-4 md:p-5 text-center ">
+                <h3 class="mt-5 mb-5 text-lg leading-6 font-medium text-gray-900">Voulez-vous vraiment réserver cette voiture ?</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-5
+                ">Vous allez réserver la voiture {{ vehicule.titre }} du {{ dateDebut|date('d/m/Y') }} au {{ dateFin|date('d/m/Y') }} pour un montant de {{ vehicule.prixTotal|number_format(2, ',', '.') ~ ' €' }}</p>
+                <a data-modal-hide="popup-modal-{{vehicule.id}}" type="button" class="mt-10 cursor-pointer rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" href="/reserver/{{ vehicule.id }}?dateDebut={{ dateDebut|date('Y-m-d H:i:s') }}&dateFin={{ dateFin|date('Y-m-d H:i:s') }}">
+                    Oui, réserver
+                </a>
+                <button data-modal-hide="popup-modal-{{vehicule.id}}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Non, annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
+            </li>
+
+        
+        {% endfor %}
+        
+    </div>
+{% endblock %}

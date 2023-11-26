@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Ajouter un véhicule{% endblock %}
+
+{% block body %}
+{% include '/components/nav.html.twig' %}
+
+    <div>
+      
+        <div class="container mx-auto max-w-2xl mt-10">
+            <h2 class="text-2xl font-bold mb-4">Ajouter un Utilisateur </h2>
+            <p class="mt-1 text-sm leading-6 text-gray-600">
+                Remplissez le formulaire ci-dessous pour ajouter un utilisateur.</p>
+
+            {% for message in app.flashes('success') %}
+                <div class="bg-green-500 text-white py-2 px-4 mb-4">{{ message }}</div>
+            {% endfor %}
+
+            {% for message in app.flashes('error') %}
+                <div class="bg-red-500 text-white py-2 px-4 mb-4">{{ message }}</div>
+            {% endfor %}
+
+            {{ form_start(form, {'attr': {'class': 'space-y-12', 'enctype': 'multipart/form-data'}}) }}
+                <div class=" pb-12">
+
+                    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 mb-12">
+                        <div class="sm:col-span-4">
+                            <label for="pseudo" class="block text-sm font-medium leading-6 text-gray-900">Pseudo</label>
+                            <div class="mt-2">
+                                {{ form_widget(form.pseudo, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none px-2 ' }}) }}
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-4">
+                            <label for="nom" class="block text-sm font-medium leading-6 text-gray-900">Nom</label>
+                            <div class="mt-2">
+                                {{ form_widget(form.nom, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none px-2 ' }}) }}
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-4">
+                            <label for="prenom" class="block text-sm font-medium leading-6 text-gray-900">Prénom</label>
+                            <div class="mt-2">
+                                {{ form_widget(form.prenom, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none px-2 ' }}) }}
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-4">
+                            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
+                            <div class="mt-2">
+                                {{ form_widget(form.email, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none px-2 ' }}) }}
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-4">
+                            <div class="mt-2">
+                                {{ form_widget(form.mdp, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none px-2 ' }}) }}
+                            </div>
+                        </div>
+                        <div class="sm:col-span-4">
+                            <fieldset>
+                                <legend class="text-sm font-semibold leading-6 text-gray-900">Role</legend>
+                                <p class="mt-1 text-sm leading-6 text-gray-600">Choisissez le role de l'utilisateur</p>
+                                <div class="mt-6 space-y-6">
+                                    <div class="flex items-center gap-x-3">
+                                    <input id="admin" name="statut" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" value="admin">
+                                    <label for="admin" class="block text-sm font-medium leading-6 text-gray-900">Admin</label>
+                                    </div>
+                                    <div class="flex items-center gap-x-3">
+                                    <input id="membre" name="statut" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" value="membre">
+                                    <label for="membre" class="block text-sm font-medium leading-6 text-gray-900">Membre</label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="sm:col-span-4">
+                            <fieldset>
+                                <legend class="text-sm font-semibold leading-6 text-gray-900">Civilité</legend>
+                                <p class="mt-1 text-sm leading-6 text-gray-600">Choisissez la civilité de l'utilisateur</p>
+                                <div class="mt-6 space-y-6">
+                                    <div class="flex items-center gap-x-3">
+                                        <input id="monsieur" name="civilite" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" value="monsieur">
+                                        <label for="monsieur" class="block text-sm font-medium leading-6 text-gray-900">Monsieur</label>
+                                    </div>
+                                    <div class="flex items-center gap-x-3">
+                                        <input id="madame" name="civilite" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" value="madame">
+                                        <label for="madame" class="block text-sm font-medium leading-6 text-gray-900">Madame</label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        
+
+                    </div>
+                </div>
+
+                 <div class="fixed bottom-0 left-0 right-0 bg-white p-4 shadow-md border-t border-gray-200 px-4 sm:px-6 lg:px-8">
+                    <div class="container mx-auto flex justify-end items-center space-x-4">
+                        <a href="/admin/users" class="text-sm font-semibold leading-6 text-gray-900">Annuler</a>
+                        <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Ajouter un utilisateur</button>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+   
+{% endblock %}

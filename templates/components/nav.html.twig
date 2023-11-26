@@ -1,0 +1,20 @@
+  <nav class="mx-auto flex max-w-7xl items-center justify-center p-6 lg:px-8 border-b border-gray-200" aria-label="Global">
+    <ul class="flex space-x-4">
+        <li><a href="/" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">Réserver</a></li>
+
+        {% if app.request.attributes.get('user') is not null %}
+
+            {% if app.request.attributes.get('user').statut == 'admin' %}
+                <li><a href="/admin/vehicules" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">Gerer les vehicules</a></li>
+                <li><a href="/admin/users" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">Gerer les utilisateurs</a></li>
+            {% endif %}
+
+            <li><a href="/profile" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">{{ app.request.attributes.get('user').pseudo }}</a></li>
+            <li><a href="/logout" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">Logout</a></li>
+        {% else %}
+            <li><a href="/login" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">S'identifier</a></li>
+            <li><a href="/register" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">S'inscrire</a></li>
+
+        {% endif %}
+    </ul>
+</nav>

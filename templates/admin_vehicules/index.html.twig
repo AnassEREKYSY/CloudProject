@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des véhicules{% endblock %}
+
+{% block body %}
+{% include '/components/nav.html.twig' %}
+
+    <div class="container mx-auto mt-8 px-6 py-4">
+        <h2 class="text-2xl font-bold mb-4">Liste des véhicules</h2>
+
+            {% for message in app.flashes('success') %}
+                <div class="bg-green-500 text-white py-2 px-4 mb-4">{{ message }}</div>
+            {% endfor %}
+
+            {% for message in app.flashes('error') %}
+                <div class="bg-red-500 text-white py-2 px-4 mb-4">{{ message }}</div>
+            {% endfor %}
+
+
+        <form method="get" action="{{ path('app_admin_vehicules') }}" class="mb-4">
+            <div class="flex space-x-4 max-w-xl">   
+                <input type="text" name="search" value="{{ searchTerm }}" placeholder="Rechercher par titre, marque, ou modèle" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none px-2">
+                <button type="submit" class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded">
+                <p class="text-sm font-medium leading-none text-white">Rechercher</p>            
+                </button>
+            </div>
+        </form>
+
+        <div class="mb-4 flex justify-end">
+            <a href="{{ path('admin_add_vehicule') }}" class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded">
+                <p class="text-sm font-medium leading-none text-white">Ajouter</p>            
+            </a>
+        </div>
+
+        {% if pagination.getTotalItemCount() > 0 %}
+            <div class="overflow-x-auto sm:rounded-lg">
+                <table class="w-full whitespace-nowrap">
+                    <thead class="focus:outline-none h-16 border border-gray-100 rounded">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">ID</th>
+                            <th scope="col" class="px-6 py-3">Titre</th>
+                            <th scope="col" class="px-6 py-3">Marque</th>
+                            <th scope="col" class="px-6 py-3">Modèle</th>
+                            <th scope="col" class="px-6 py-3">Prix journalier</th>
+                            <th scope="col" class="px-6 py-3">Date</th>
+                            <th scope="col" class="px-6 py-3">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vehicule in pagination %}
+                            <tr class="focus:outline-none h-16 border border-gray-100 rounded">
+                                <td class="">
+                                    <div class="flex items-center pl-5">
+                                        <p class="text-base font-medium leading-none text-gray-700 mr-2">{{ vehicule.getId() }}</p>
+                                    </div>
+                                </td>
+
+                                
+                                <td class="">
+                                    <div class="flex items-center pl-5">
+                                        <p class="text-base font-medium leading-none text-gray-700 mr-2">{{ vehicule.getTitre() }}</p>
+                                    </div>
+                                </td>
+                                
+                                <td class="">
+                                    <div class="flex items-center pl-5">
+                                        <p class="text-base font-medium leading-none text-gray-700 mr-2">{{ vehicule.getMarque() }}</p>
+                                    </div>
+                                </td>
+                                <td class="">
+                                    <div class="flex items-center pl-5">
+                                        <p class="text-base font-medium leading-none text-gray-700 mr-2">{{ vehicule.getModele() }}</p>
+                                    </div>
+                                </td>
+                                <td class="">
+                                   <div class="flex items-center pl-5">
+                                        <p class="text-base font-medium leading-none text-green-400 mr-2">
+                                            {{ (vehicule.getPrixJournalier())|number_format(2, ',', '.') ~ ' €' }}
+                                        </p>
+                                    </div>
+                                </td>
+                              
+                                <td class="">
+                                    <div class="flex items-center pl-5">
+                                        <p class="text-base font-medium leading-none text-gray-700 mr-2">{{ vehicule.getDateEnregistrement()|date('Y-m-d H:i:s') }}</p>
+                                    </div>
+                                </td>
+                                
+                                <td class="pl-4">
+                                    <a href="{{ path('admin_view_vehicule', {id: vehicule.getId()}) }}" 
+                                    class=" text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none">View</a>
+                                    <a  href="{{ path('admin_edit_vehicule', {id: vehicule.getId()}) }}"
+                                    class="text-sm leading-none text-blue-600 py-3 px-5 bg-blue-100 rounded hover:bg-blue-200 focus:outline-none">Modifier</a>
+                                    <a  href="{{ path('admin_remove_vehicule', {id: vehicule.getId()}) }}"
+                                    class="text-sm leading-none text-red-600 py-3 px-5 bg-red-100 rounded hover:bg-red-200 focus:outline-none">Delete</a>
+                                </td>
+
+                                
+                                {# <td class="px-6 py-4">
+                                    {% if vehicule.getPhoto() is not null %}
+                                        <img src="{{ vehicule.getPhoto() }}" alt="Photo du véhicule" class="w-10 h-10 object-cover">
+                                    {% else %}
+                                        Pas de photo
+                                    {% endif %}
+                                </td> #}
+                                {# <td class="px-6 py-4">{{ vehicule.getPrixJournalier() }}</td>
+                                <td class="px-6 py-4">{{ vehicule.getDateEnregistrement()|date('Y-m-d H:i:s') }}</td>
+                                <td class="px-6 py-4 space-x-2">
+                                    <a href="{{ path('admin_edit_vehicule', {id: vehicule.getId()}) }}" class="text-blue-600 hover:underline">Modifier</a>
+                                    <a href="{{ path('admin_remove_vehicule', {id: vehicule.getId()}) }}" class="text-red-600 hover:underline">Supprimer</a>
+                                </td> #}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-4">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% else %}
+            <p class="mt-4">Aucun véhicule disponible.</p>
+        {% endif %}
+    </div>
+{% endblock %}

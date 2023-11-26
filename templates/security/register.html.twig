@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+            <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">S'inscrire</h2>
+            <p class="mt-1 text-sm leading-6 text-gray-600 max-w text-center">
+                Créez un compte en remplissant les champs ci-dessous.
+            </p>
+        </div>
+
+        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+            {{ form_start(registrationForm, {'class': 'space-y-6'}) }}
+            
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label for="nom" class="block text-sm font-medium leading-6 text-gray-900">Nom</label>
+                    <div class="mt-2">
+                        {{ form_widget(registrationForm.nom, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none px-2 '}}) }}
+                    </div>
+                </div>
+
+                <div>
+                    <label for="prenom" class="block text-sm font-medium leading-6 text-gray-900">Prénom</label>
+                    <div class="mt-2">
+                        {{ form_widget(registrationForm.prenom, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none px-2 '}}) }}
+                    </div>
+                </div>
+
+                <div class="col-span-2">
+                    <label for="pseudo" class="block text-sm font-medium leading-6 text-gray-900">Pseudo</label>
+                    <div class="mt-2">
+                        {{ form_widget(registrationForm.pseudo, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none px-2 '}}) }}
+                    </div>
+                </div>
+
+                <div class="col-span-2">
+                    <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
+                    <div class="mt-2">
+                        {{ form_widget(registrationForm.email, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none px-2 '}}) }}
+                    </div>
+                </div>
+
+                <div class="col-span-2">
+                    <label for="mdp" class="block text-sm font-medium leading-6 text-gray-900">Mot de passe</label>
+                    <div class="mt-2">
+                        {{ form_widget(registrationForm.mdp, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 outline-none px-2 '}}) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-span-2 mt-6">
+                <fieldset>
+                    <legend class="text-sm font-semibold leading-6 text-gray-900 mb-2">Civilité</legend>
+                        <div class="flex items-center gap-x-3">
+                            <input id="monsieur" name="civilite" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" value="monsieur">
+                            <label for="monsieur" class="block text-sm font-medium leading-6 text-gray-900">Monsieur</label>
+                        </div>
+                        <div class="flex items-center gap-x-3">
+                            <input id="madame" name="civilite" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" value="madame">
+                            <label for="madame" class="block text-sm font-medium leading-6 text-gray-900">Madame</label>
+                        </div>
+                    
+                </fieldset>
+            </div>
+
+            <div class="mt-6">
+                <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 py-2 px-4 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">S'inscrire</button>
+                <a href="{{ path('login_form') }}" class="flex w-full justify-center rounded-md bg-gray-200 py-2 px-4 text-sm font-semibold leading-6 text-gray-900 shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 mt-2"> S'identifier</a>
+
+            </div>
+
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+{% endblock %}

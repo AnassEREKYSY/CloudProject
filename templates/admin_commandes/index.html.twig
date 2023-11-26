@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des commandes{% endblock %}
+
+{% block body %}
+    {% include '/components/nav.html.twig' %}
+
+    <div class="container mx-auto mt-8 px-6 py-4">
+
+        {% for message in app.flashes('success') %}
+            <div class="bg-green-500 text-white py-2 px-4 mb-4">{{ message }}</div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div class="bg-red-500 text-white py-2 px-4 mb-4">{{ message }}</div>
+        {% endfor %}
+
+        <h2 class="text-2xl font-bold mb-4">Liste des Commandes</h2>
+
+        <div class="mb-4 flex justify-end">
+            <a href="{{ path('admin_add_command') }}"
+               class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded">
+                <p class="text-sm font-medium leading-none text-white">Ajouter</p>
+            </a>
+        </div>
+
+        {% if pagination.getTotalItemCount() > 0 %}
+            <div class="overflow-x-auto sm:rounded-lg">
+                <table class="w-full whitespace-nowrap">
+                    <thead class="focus:outline-none h-16 border border-gray-100 rounded">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">ID</th>
+                        <th scope="col" class="px-6 py-3">Membre</th>
+                        <th scope="col" class="px-6 py-3">Véhicule</th>
+                        <th scope="col" class="px-6 py-3">Date Heure Départ</th>
+                        <th scope="col" class="px-6 py-3">Date Heure Fin</th>
+                        <th scope="col" class="px-6 py-3">Prix Total</th>
+                        <th scope="col" class="px-6 py-3">Date Enregistrement</th>
+                        <th scope="col" class="px-6 py-3">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for commande in pagination %}
+                        <tr class="focus:outline-none h-16 border border-gray-100 rounded">
+                            <td class="">
+                                <div class="flex items-center pl-5">
+                                    <p class="text-base font-medium leading-none text-gray-700 mr-2">{{ commande.getId() }}</p>
+                                </div>
+                            </td>
+
+                            <td class="">
+                                <div class="flex items-center pl-5">
+                                    <p class="text-base font-medium leading-none text-gray-700 mr-2">{{ commande.getIdMembre().getPseudo() }}</p>
+                                </div>
+                            </td>
+
+                            <td class="">
+                                <div class="flex items-center pl-5">
+                                    <p class="text-base font-medium leading-none text-gray-700 mr-2">{{ commande.getIdVehicule().getTitre() }}</p>
+                                </div>
+                            </td>
+
+                            <td class="">
+                                <div class="flex items-center pl-5">
+                                    <p class="text-base font-medium leading-none text-gray-700 mr-2">{{ commande.getDateHeureDepart()|date('Y-m-d H:i:s') }}</p>
+                                </div>
+                            </td>
+
+                            <td class="">
+                                <div class="flex items-center pl-5">
+                                    <p class="text-base font-medium leading-none text-gray-700 mr-2">{{ commande.getDateHeureFin()|date('Y-m-d H:i:s') }}</p>
+                                </div>
+                            </td>
+
+                            <td class="">
+                                <div class="flex items-center pl-5">
+                                    <p class="text-base font-medium leading-none text-green-400 mr-2">
+                                    {{ (commande.getPrixTotal())|number_format(2, ',', '.') ~ ' €' }}
+                                    </p>
+                                </div>
+                            </td>
+
+                            <td class="">
+                                <div class="flex items-center pl-5">
+                                    <p class="text-base font-medium leading-none text-gray-700 mr-2">{{ commande.getDateEnregistrement()|date('Y-m-d H:i:s') }}</p>
+                                </div>
+                            </td>
+
+                            <td class="pl-4">
+                                <a href="{{ path('admin_view_command', {id: commande.getId()}) }}"
+                                   class="text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none">View</a>
+                                <a href="{{ path('admin_edit_command', {id: commande.getId()}) }}"
+                                   class="text-sm leading-none text-blue-600 py-3 px-5 bg-blue-100 rounded hover:bg-blue-200 focus:outline-none">Modifier</a>
+                                <a href="{{ path('admin_delete_command', {id: commande.getId()}) }}"
+                                   class="text-sm leading-none text-red-600 py-3 px-5 bg-red-100 rounded hover:bg-red-200 focus:outline-none">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% else %}
+            <p class="mt-4">Aucune commande disponible.</p>
+        {% endif %}
+    </div>
+{% endblock %}

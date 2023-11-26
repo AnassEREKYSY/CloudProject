@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Véhicule{% endblock %}
+
+{% block body %}
+{% include '/components/nav.html.twig' %}
+
+    <div class="py-12 px-12">
+        <div class="flex items-center justify-between mb-6">
+            <a href="{{ path('app_admin_vehicules') }}" class="flex items-center text-indigo-600 hover:text-indigo-500">
+                <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Retour à la liste des véhicules
+            </a>
+            <div class="px-4 sm:px-0">
+                <h3 class="text-base font-semibold leading-7 text-gray-900">{{ vehicule.getTitre() }}</h3>
+                <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">{{ vehicule.getMarque() }} - {{ vehicule.getModele() }}</p>
+            </div>
+        </div>
+        <div class="mt-6 border-t border-gray-100">
+            <dl class="divide-y divide-gray-100">
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900">Titre</dt>
+                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ vehicule.getTitre() }}</dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900">Marque</dt>
+                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ vehicule.getMarque() }}</dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900">Modele</dt>
+                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ vehicule.getModele() }}</dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900">Description</dt>
+                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ vehicule.getDescription() }}</dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900">Prix Journalier</dt>
+                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ vehicule.getPrixJournalier() }} €</dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900">Date d'enregistrement</dt>
+                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ vehicule.getDateEnregistrement()|date('Y-m-d H:i:s') }}</dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900">Marque</dt>
+                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ vehicule.getMarque() }}</dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900">Modèle</dt>
+                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ vehicule.getModele() }}</dd>
+                </div>
+                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900">Photo</dt>
+                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                        <img src="{{ vehicule.getPhoto() }}" alt="{{ vehicule.getTitre() }}" class="w-1/4" onerror="this.style.display='none'">
+                    </dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+{% endblock %}
