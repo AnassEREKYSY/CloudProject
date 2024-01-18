@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 
 class AdminVehiculesController extends AbstractController
 {
@@ -58,10 +59,23 @@ public function index(Request $request, VehiculeRepository $vehiculeRepository, 
             $vehicule->setModele($form->get('modele')->getData());
             $vehicule->setDescription($form->get('description')->getData());
             $vehicule->setPrixJournalier($form->get('prix_journalier')->getData());
+
             if ($file) {
                 $fileName = md5(uniqid()) . '.' . $file->guessExtension();
                 $file->move($this->getParameter('uploads_directory'), $fileName);
                 $vehicule->setPhoto('/uploads/'.$fileName);
+
+                // Upload the file to Azure Blob Storage
+                $connectionString = 'DefaultEndpointsProtocol=https;AccountName=omaranassstorage;AccountKey=RrLcS4yUXXpitqeOIDFmnopKYQd5WltO88PNSvwqq/75nagSLu/wiajg8z7YEEmPfBISZOQXnZ29+ASty9Fkrg==;EndpointSuffix=core.windows.net';
+                $containerName = 'omaranasscontainer';
+                $blobName = $fileName;
+
+                $blobClient = BlobRestProxy::createBlobService($connectionString);
+                $filePath = $this->getParameter('uploads_directory') . '/' . $fileName;
+                $content = fopen($filePath, "r");
+                $blobClient->createBlockBlob($containerName, $blobName, $content);
+                $vehicule->setPhoto('https://omaranassstorage.blob.core.windows.net/omaranasscontainer/'.$blobName);
+                
             }
             $em->persist($vehicule);
             $em->flush();
