@@ -138,5 +138,18 @@ resource "azurerm_mysql_server" "omar-anass-terraform-mysql" {
   ssl_minimal_tls_version_enforced  = "TLS1_2"
 }
 
+resource "azurerm_storage_account" "omar-anass-terraform-storage" {
+  name                     = "omaranassstorage"
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+}
+
+resource "azurerm_storage_container" "omaranasscontainer" {
+  name                  = "omaranasscontainer"
+  storage_account_name  = azurerm_storage_account.omar-anass-terraform-storage.name
+  container_access_type = "private"
+}
 
 
